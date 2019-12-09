@@ -1,0 +1,9 @@
+[submodule "dfpl-project001-gateway"]
+	path = dfpl-project001-gateway
+	url = https://github.com/Raghav-intrigue/dfpl-project001-gateway.git
+[submodule "meshwdata"]
+	path = meshwdata
+	url = https://github.com/Raghav-intrigue/dfpl-project001-node.git
+[submodule "painlessmeshboost"]
+	path = painlessmeshboost
+	url = https://gitlab.com/Raghav-intrigue/painlessmeshboost.git

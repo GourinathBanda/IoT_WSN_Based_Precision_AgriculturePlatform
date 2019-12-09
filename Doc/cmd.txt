@@ -1,0 +1,32 @@
+
+2  gcloud services enable pubsub.googleapis.com
+6  export PROJECT_ID="dfpl-project-001"
+
+
+8  gcloud projects add-iam-policy-binding $PROJECT_ID   --member=serviceAccount:cloud-iot@system.gserviceaccount.com   --role=roles/pubsub.publisher
+
+
+9  export PUBSUB_TOPIC="iotcore-topic"
+10  export PUBSUB_SUBSCRIPTION="iotcore-subscription" _NAME   --event-notification-config=topic=$PUBSUB_TOPIC   --enable-mqtt-config --enable-http-config
+
+gcloud pubsub subscriptions create $PUBSUB_SUBSCRIPTION --topic=$PUBSUB_TOPIC
+
+
+25  export DEVICE_NAME="esp8266-00"
+
+26  openssl ecparam -genkey -name prime256v1 -noout -out ec_private.pem
+
+27  openssl ec -in ec_private.pem -pubout -out ec_public.pem
+
+28  gcloud iot devices create $DEVICE_NAME   --region=$REGION_NAME   --registry=$REGISTRY_NAME   --public-key="path=./ec_public.pem,type=es256"
+
+30  openssl ec -in ec_private.pem -noout -text
+
+31  read EC key
+
+
+33  gcloud pubsub subscriptions pull --auto-ack $PUBSUB_SUBSCRIPTION --limit=20
+34  gcloud config list
+35  gcloud pubsub subscriptions pull --auto-ack $PUBSUB_SUBSCRIPTION --limit=20
+
+37  openssl req -x509 -newkey rsa:2048   -nodes -keyout rsa_private.pem -x509 -days 365 -out rsa_cert.pem -subj "/CN=unused"
