@@ -1,6 +1,5 @@
 iot setup 2
 
-
 export PROJECT_ID="dfpl-project-001"
 export PUBSUB_TOPIC="iotcore-topic"
 export PUBSUB_SUBSCRIPTION="iotcore-subscription"
