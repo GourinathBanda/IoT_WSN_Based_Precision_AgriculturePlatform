@@ -1,14 +1,3 @@
-iot setup
-
-export PROJECT_ID="dfpl-project-001"
-export PUBSUB_TOPIC="iotcore-topic"
-export PUBSUB_SUBSCRIPTION="iotcore-subscription"
-export REGISTRY_NAME="dfpl-temp"
-export REGION_NAME="asia-east1"
-
-export DEVICE_NAME="esp8266-00"
-
-
 read EC key
 Private-Key: (256 bit)
 priv:
