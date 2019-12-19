@@ -1,0 +1,6 @@
+1. Turn on the gateway (Raspberry Pi)
+   * Connect the given USB C power adapter  to the raspberry pi.
+   * Connect the given 4G dongle to raspberry pi via usb
+   * Turn on the raspberry pi
+2. Place the nodes in the field
+3. Turn them on

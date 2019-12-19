@@ -1,0 +1,74 @@
+\section{Hardware Stack}
+
+The two main factors that decided the hardware stack are cost and functionality. The node needs to be as inexpensive as possible as to keep the costs down when scaling, and the gateway needs to be powerful enough to allow easy scalability and upgradability.
+
+The 2 microcontrollers that are a great fit to serve as the brain of the node, ESP8266 and ESP32. Both are perfectly suited and the software stack is compatible with both of them. To keep the development costs down, the ESP8266 was used.
+The complete bill of materials is given in Table~\ref{table:billofmat}.
+
+\renewcommand{\arraystretch}{1.2}
+\begin{table}[h!]
+\begin{tabular}{ p{2.3cm} p{6cm} p{1.3cm} p{1.3cm} }
+    
+    \hline
+    \textbf{Device} & \textbf{Components} & \multicolumn{2}{l}{\textbf{Cost}}\\
+    \hline
+    9 x Nodes & & & \rupee~1,050
+    \\
+    & ESP8266 &\rupee~364 &
+    \\
+    & Soil Moisture Sensor&\rupee~177 &
+    \\
+    & DS18B20 Soil Temperature Sensor&\rupee~110 &
+    \\
+    & 3000mah LiFePo4 Battery&\rupee~299 &
+    \\
+    & Housing&\rupee~100 &
+    \\\hline
+    1 x Gateway & & & \rupee~5,272
+    \\
+    & Raspberry Pi 4 (4GB)&\rupee~3,994 &
+    \\
+    & 16GB Storage&\rupee~279 &
+    \\
+    & 4G Dongle&\rupee~999  &
+    \\\hline
+    Total: & & & \rupee~14,722 
+    \\\hline
+
+\end{tabular}
+\caption{Bill of Materials}
+\label{table:billofmat}
+\end{table}
+
+
+
+\section{Software Stack}
+
+\subsection{Node}
+    The ESP8266 node is programmed using PlatformIO~\cite{platformio}, an open-source, cross-platform IDE. This allows for fast debugging, code execution, and testing on any platform that can run python. The code is written in C++ (refer to Appendix 8.1).
+
+    \noindent
+    The mesh is built and configured using painlessMesh~\cite{painlessMesh} module, an open-source library that takes care of the particulars of creating a simple ad-hoc mesh network which required no central controller. It is compatible with both the ESP8266 and the ESP32. Each node created a wifi network with the same SSID but different BSSID. After the mesh is initialized and configured, only one SSID is publicly visible, reducing any network clutter.
+
+    \noindent
+    The main loop logic is defined as follows:
+    \begin{enumerate}
+        \item Initialize the mesh and wait for the gateway to connect (until max wait time);
+        \item When connected, request for authentication, and sense the parameters;
+        \item When authenticated, send the payload with the available parameters;
+        \item Receive any configuration updates, or commands from the gateway and perform the necessary actions; and
+        \item Go to deep sleep until the next wakeup cycle.
+    \end{enumerate}
+
+\subsection{Gateway}
+    The gateway powered by the Raspberry Pi 4 hardware is programmed in python, allowing for cross-platform compatibility and support. The python script works alongside a modified version painlessMeshBoost library~\cite{painlessMeshBoost} which creates a bridge between the WSN mesh and the gateway.
+
+    \noindent
+    The setup instructions are as simple as running the python script with the appropriate arguments. The main loop logic is defined as follows:
+    \begin{enumerate}
+        \item Actively looks for the WSN and connect when available;
+        \item When connected, using the painlessMeshBoost bridge receive the telemetry data from the Sensor nodes and act accordingly;
+        \item Relay the telemetry data with appropriate timestamps to Google Cloud IoT Core, and BigQuery database for archival storage;
+        \item Relay any configuration updates and commands to the specific nodes using the bridge; and
+        \item Sleep until the next wakeup cycle.
+    \end{enumerate}

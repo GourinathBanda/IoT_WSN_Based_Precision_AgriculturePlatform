@@ -1,0 +1,39 @@
+First, download the full solution:\markdownRendererInterblockSeparator
+{}\markdownRendererCodeSpan{
+git clone --recurse-submodules \markdownRendererBackslash{}
+https://github.com/Raghav-intrigue/dfpl-project001
+cd dfpl-project001
+}\markdownRendererInterblockSeparator
+{}Then, the deployment from scratch requires:\markdownRendererInterblockSeparator
+{}\markdownRendererUlBeginTight
+\markdownRendererUlItem \markdownRendererStrongEmphasis{Initial cloud setup}\markdownRendererUlItemEnd 
+\markdownRendererUlEndTight \markdownRendererInterblockSeparator
+{}This will be done only once in the projects lifetime.\markdownRendererInterblockSeparator
+{}Follow the instructions in \markdownRendererLink{Cloud setup from scratch}{./documentation/cloud.md}{./documentation/cloud.md}{}\markdownRendererInterblockSeparator
+{}\markdownRendererUlBegin
+\markdownRendererUlItem \markdownRendererStrongEmphasis{Device setup and registration}\markdownRendererInterblockSeparator
+{}Each device (node and gateway) has a unique ID, this needs to be registered on the cloud. This ID can be any arbitrary string (ensure consistency in the naming schema for convenience).\markdownRendererInterblockSeparator
+{}This will be done once for each device in it's lifetime.\markdownRendererInterblockSeparator
+{}\markdownRendererOlBeginTight
+\markdownRendererOlItemWithNumber{1}Setup Cloud (open \markdownRendererLink{Cloud Setup}{./documentation/cloud.md}{./documentation/cloud.md}{}):\markdownRendererOlItemEnd 
+\markdownRendererOlEndTight \markdownRendererInterblockSeparator
+{}\markdownRendererUlBeginTight
+\markdownRendererUlItem Register Gateway (note down the gatewayID)\markdownRendererUlItemEnd 
+\markdownRendererUlItem Register Nodes and Bind the nodes to the gateway (note the nodeIDs)\markdownRendererUlItemEnd 
+\markdownRendererUlEndTight \markdownRendererInterblockSeparator
+{}\markdownRendererOlBegin
+\markdownRendererOlItemWithNumber{2}Flash each node with the registered NodeIDs. See \markdownRendererLink{Node Setup}{https://github.com/Raghav-intrigue/dfpl-project001-node}{https://github.com/Raghav-intrigue/dfpl-project001-node}{}\markdownRendererOlItemEnd 
+\markdownRendererOlItemWithNumber{3}Setup Gateway (software installation). See section \markdownRendererLink{Gateway Setup}{https://github.com/Raghav-intrigue/dfpl-project001-gateway}{https://github.com/Raghav-intrigue/dfpl-project001-gateway}{}\markdownRendererOlItemEnd 
+\markdownRendererOlEnd \markdownRendererUlItemEnd 
+\markdownRendererUlItem \markdownRendererStrongEmphasis{Field Deployment}\markdownRendererUlItemEnd 
+\markdownRendererUlEnd \markdownRendererInterblockSeparator
+{}\markdownRendererOlBeginTight
+\markdownRendererOlItemWithNumber{1}Turn on the gateway (Raspberry Pi)\markdownRendererInterblockSeparator
+{}\markdownRendererUlBeginTight
+\markdownRendererUlItem Connect the given USB C power adapter to the raspberry pi.\markdownRendererUlItemEnd 
+\markdownRendererUlItem Connect the given 4G dongle to raspberry pi via usb\markdownRendererUlItemEnd 
+\markdownRendererUlItem Turn on the raspberry pi\markdownRendererUlItemEnd 
+\markdownRendererUlEndTight \markdownRendererOlItemEnd 
+\markdownRendererOlItemWithNumber{2}Place the nodes in the field\markdownRendererOlItemEnd 
+\markdownRendererOlItemWithNumber{3}Turn them on\markdownRendererOlItemEnd 
+\markdownRendererOlEndTight \relax

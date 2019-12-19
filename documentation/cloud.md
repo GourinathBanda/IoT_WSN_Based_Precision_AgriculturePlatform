@@ -26,7 +26,10 @@ export GATEWAY_NAME="test-gateway"
 3. Execute:
    
    ```sh
-   gcloud iot devices create $MDEVICE_NAME --region=$REGION_NAME  --registry=$REGISTRY_NAME --device-type=non-gateway
+    gcloud iot devices create $MDEVICE_NAME \
+        --region=$REGION_NAME \
+        --registry=$REGISTRY_NAME \
+        --device-type=non-gateway
    ```
 
 ## Bind node to gateway
@@ -37,7 +40,14 @@ export GATEWAY_NAME="test-gateway"
 4. Execute:
    
    ```sh
-    gcloud iot devices gateways bind --device=espmesh-02 --device-region=$REGION_NAME --device-registry=$REGISTRY_NAME --gateway=$GATEWAY_NAME --gateway-region=$REGION_NAME --gateway-registry=$REGISTRY_NAME --project=$PROJECT_ID
+    gcloud iot devices gateways bind \
+        --device=espmesh-02 \
+        --device-region=$REGION_NAME \
+        --device-registry=$REGISTRY_NAME \
+        --gateway=$GATEWAY_NAME \
+        --gateway-region=$REGION_NAME \
+        --gateway-registry=$REGISTRY_NAME \
+        --project=$PROJECT_ID
    ```
 
 ## Register Gateway
@@ -47,24 +57,34 @@ export GATEWAY_NAME="test-gateway"
 3. Execute: 
    
    ```sh
-   gcloud iot devices create test-gateway   --region=asia-east1   --registry=dfpl-temp   --auth-method=association-only   --device-type=gateway   --project=$PROJECT_ID   --public-key path=rsa_cert.pem,type=rsa-x509-pem
+    gcloud iot devices create $GATEWAY_NAME \
+        --region=asia-east1 \
+        --registry=dfpl-temp \
+        --auth-method=association-only \
+        --device-type=gateway \
+        --project=$PROJECT_ID \
+        --public-key path=rsa_cert.pem,type=rsa-x509-pem
    ```
 
 ## Other commands:
 
 ### To output the last 20 telemetry lines:
 
-`gcloud pubsub subscriptions pull --auto-ack $PUBSUB_SUBSCRIPTION --limit=20`
+```sh
+gcloud pubsub subscriptions pull \
+--auto-ack $PUBSUB_SUBSCRIPTION \
+--limit=20
+```
 
 ### To access archival database
 
 1. Open the url: `https://console.cloud.google.com/bigquery`
 2. Select your project, the database name, and the table.
    
-   ![Big Query Database](../master/documentation/imgs/bq.png?raw=true)
+   ![Big Query Database](./imgs/bq.png)
 
 
-## Project Setup (Already done, no need to do it again)
+## Project Setup from scratch (Already done, no need to do it again)
 
 1. Make sure that billing is enabled for your Google Cloud project. See [link](https://cloud.google.com/billing/docs/how-to/modify-project)
 
@@ -73,13 +93,19 @@ export GATEWAY_NAME="test-gateway"
 3. Execute the following commands:
 
     ```sh
-    gcloud projects add-iam-policy-binding $PROJECT_ID --member=serviceAccount:cloud-iot@system.gserviceaccount.com --role=roles/pubsub.publisher
+    gcloud projects add-iam-policy-binding $PROJECT_ID \
+        --member=serviceAccount:cloud-iot@system.gserviceaccount.com \
+        --role=roles/pubsub.publisher
     
     gcloud pubsub topics create $PUBSUB_TOPIC
     
     gcloud pubsub subscriptions create $PUBSUB_SUBSCRIPTIO --topic $PUBSUB_TOPIC
     
-    gcloud iot registries create $REGISTRY_NAME   --region=$REGION_NAME --event-notification-config=topic=$PUBSUB_TOPIC --enable-mqtt-config --enable-http-config
+    gcloud iot registries create $REGISTRY_NAME \
+        --region=$REGION_NAME \
+        --event-notification-config=topic=$PUBSUB_TOPIC \
+        --enable-mqtt-config \
+        --enable-http-config
     ```
 
 4. Generate your signing keys using the following commands, remember the location of the created key (`rsa_cert.pem`), they will be used to register a gateway :
