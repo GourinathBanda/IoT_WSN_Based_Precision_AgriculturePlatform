@@ -105,10 +105,22 @@ gcloud pubsub subscriptions pull \
         --region=$REGION_NAME \
         --event-notification-config=topic=$PUBSUB_TOPIC \
         --enable-mqtt-config \
-        --enable-http-config
+        --enable-http-config    
+
     ```
 
-4. Generate your signing keys using the following commands, remember the location of the created key (`rsa_cert.pem`), they will be used to register a gateway :
+4. Create a service account credentials (`bq-manager.json`) that will be used to manage archival storage.
+   
+   ```sh
+    gcloud iam service-accounts create bq-manager
+    
+    gcloud projects add-iam-policy-binding $PROJECT_ID --member "serviceAccount:bq-manager@$PROJECT_ID.iam.gserviceaccount.com" --role "roles/bigquery.dataOwner"
+    
+    gcloud iam service-accounts keys create bq-manager.json --iam-account bq-manager@$PROJECT_ID.iam.gserviceaccount.com
+   ```
+
+5. Download this credentials file (`bq-manager.json`) to the gateway computer.
+6. Generate your signing keys using the following commands, remember the location of the created key (`rsa_cert.pem`), they will be used to register a gateway :
 
     ```sh
     openssl req -x509 -newkey rsa:2048  -nodes  -keyout rsa_private.pem -x509 -days 365 -out rsa_cert.pem -subj "/CN=unused"

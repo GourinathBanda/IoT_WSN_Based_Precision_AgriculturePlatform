@@ -6,7 +6,9 @@ This repository contains all components that are a part of this solution. To dow
 git clone --recurse-submodules https://github.com/Raghav-intrigue/dfpl-project001
 ```
 
-There are 3 main component layers: the nodes, the gateway, and cloud back-end.
+This solution was created as part of the BTech Project. The report can be found [here](./documentation/BTP Report.pdf).
+
+There are 3 main component layers: the nodes, the gateway, and cloud back-end. A more detailed solution architecture can be found [here](./documentation/Architecture Description.pdf).
 
 ![Network Architecture](./documentation/imgs/layers.png)
 
@@ -25,6 +27,8 @@ There are 3 main component layers: the nodes, the gateway, and cloud back-end.
   A python script running on a raspberry pi that connects to the mesh via wifi and sends the telemetry data to Cloud.
   
   The cloud configuration: `{ "farmID" : "farm_001" , "datasetID": "rawSensorData"}` decides the dataset to which the gateway is adding data to and the farmID (which decides the name of the table in the database).
+
+  After the initial setup, the gateway is also a plug and play device.
 
 * **Cloud:**
   
