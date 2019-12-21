@@ -6,7 +6,7 @@ This repository contains all components that are a part of this solution. To dow
 git clone --recurse-submodules https://github.com/Raghav-intrigue/dfpl-project001
 ```
 
-This solution was created as part of the BTech Project. The report can be found [here](./documentation/BTP-Report.pdf).
+This solution was created as part of the BTech Project. The report can be found [here](./documentation/BTP-Report.pdf). The project requirements can be found [here](./documentation/req.md).
 
 There are 3 main component layers: the nodes, the gateway, and cloud back-end. A more detailed solution architecture can be found [here](./documentation/Architecture-Description.pdf).
 
