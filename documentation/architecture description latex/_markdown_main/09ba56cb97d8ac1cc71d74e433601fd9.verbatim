@@ -1,7 +1,0 @@
-1. Setup Cloud (open [Cloud Setup](./documentation/cloud.md)):
-   * Register Gateway (note down the gatewayID)
-   * Register Nodes and Bind the nodes to the gateway (note the nodeIDs)
-
-2. Flash each node with the registered NodeIDs. See [Node Setup](https://github.com/Raghav-intrigue/dfpl-project001-node)
-
-3. Setup Gateway (software installation). See section [Gateway Setup](https://github.com/Raghav-intrigue/dfpl-project001-gateway)

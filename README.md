@@ -2,7 +2,7 @@
 
 This solution was created as part of the BTech Project. The report for the same can be found [here](./documentation/BTP-Report.pdf).
 
-The project requirements can be found [here](./documentation/req.md).
+The project requirements can be found [here](./documentation/project-requirements.md).
 
 This repository contains all components that are a part of this solution. To download the full solution:
 
