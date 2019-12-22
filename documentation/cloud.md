@@ -3,12 +3,15 @@
 [![Open in Cloud Shell][shell_img]][shell_link]
 
 [shell_img]: https://gstatic.com/cloudssh/images/open-btn.png
-[shell_link]: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/Raghav-intrigue/dfpl-project001&page=editor&open_in_editor=documentation/cloud.md
+[shell_link]: https://console.cloud.google.com/cloudshell/open?git_repo=https://github.com/Raghav-intrigue/dfpl-project001&page=editor&open_in_editor=documentation/new-farm-setup.md
 
+Click the above button to open this repository in a Google Cloud Console.
+
+The cloud setup on gcp has already been performed, if you want to perform the same from scratch, the instructions are available [here](./cloud-from-scratch.md).
 
 Before following any of the steps below, ensure that these environment variables are set according to your cloud setup.
 
-Run the following commands to set the environment variables (given with the current values) :
+Run the following commands to set the environment variables (these are given with the current values, set them according to your cloud setup):
 
 ```sh
 export PROJECT_ID="dfpl-project-001"
@@ -18,6 +21,17 @@ export REGISTRY_NAME="dfpl-temp"
 export REGION_NAME="asia-east1"
 export GATEWAY_NAME="test-gateway"
 ```
+
+## Steps to setup a new farm:
+
+1. The gateway needs to registered with a unique gatewayID on the Cloud. Follow the instructions [here](#register-gateway) to register the gatewayID.
+   
+2. Each node needs to be registered with a unique nodeID on the cloud. Follow the instructions [here](#register-node) to register each ID.
+   
+3. Each node registered above needs to be bound to the gateway registered above. Follow the instructions [here](#bind-node-to-gateway) to bind the nodes.
+   
+4. Set the farmID(unique farm identifier) and datasetID (according to your cloud setup) using the instructions [here](#to-change-the-farmid-and-datasetid-update-config).
+
 
 ## Register node
 
@@ -83,45 +97,24 @@ gcloud pubsub subscriptions pull \
    
    ![Big Query Database](./imgs/bq.png)
 
+### To change the farmID and datasetID (update config)
 
-## Project Setup from scratch (Already done, no need to do it again)
+1. Open cloud shell, set the environment variables
 
-1. Make sure that billing is enabled for your Google Cloud project. See [link](https://cloud.google.com/billing/docs/how-to/modify-project)
+2. Set the FarmID using `export FARM_ID="farm_001"`
 
-2. Enable the Cloud IoT Core and Cloud Pub/Sub APIs. [Enable APIs](https://console.cloud.google.com/flows/enableapi?apiid=cloudiot.googleapis.com,pubsub)
-
-3. Execute the following commands:
-
+3. Set the datasetID according to your cloud setup using: (default=`rawSensorData`)
+   
     ```sh
-    gcloud projects add-iam-policy-binding $PROJECT_ID \
-        --member=serviceAccount:cloud-iot@system.gserviceaccount.com \
-        --role=roles/pubsub.publisher
-    
-    gcloud pubsub topics create $PUBSUB_TOPIC
-    
-    gcloud pubsub subscriptions create $PUBSUB_SUBSCRIPTIO --topic $PUBSUB_TOPIC
-    
-    gcloud iot registries create $REGISTRY_NAME \
-        --region=$REGION_NAME \
-        --event-notification-config=topic=$PUBSUB_TOPIC \
-        --enable-mqtt-config \
-        --enable-http-config    
-
+    export DATASET_ID="rawSensorData"
     ```
 
-4. Create a service account credentials (`bq-manager.json`) that will be used to manage archival storage.
-   
-   ```sh
-    gcloud iam service-accounts create bq-manager
+4. Execute the following command to update the config:
     
-    gcloud projects add-iam-policy-binding $PROJECT_ID --member "serviceAccount:bq-manager@$PROJECT_ID.iam.gserviceaccount.com" --role "roles/bigquery.dataOwner"
-    
-    gcloud iam service-accounts keys create bq-manager.json --iam-account bq-manager@$PROJECT_ID.iam.gserviceaccount.com
-   ```
-
-5. Download this credentials file (`bq-manager.json`) to the gateway computer.
-6. Generate your signing keys using the following commands, remember the location of the created key (`rsa_cert.pem`), they will be used to register a gateway :
-
     ```sh
-    openssl req -x509 -newkey rsa:2048  -nodes  -keyout rsa_private.pem -x509 -days 365 -out rsa_cert.pem -subj "/CN=unused"
+    gcloud iot devices configs update \
+    --config-data='{ "farmID" : "$FARM_ID" , "$DATASET_ID": "rawSensorData"}' \
+    --device=$GATEWAY_NAME \
+    --region=$REGION_NAME \
+    --registry=$REGISTRY_NAME
     ```
