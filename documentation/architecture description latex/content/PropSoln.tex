@@ -70,7 +70,14 @@ The proposed network architecture (depicted in Figure~\ref{fig:layers}) is compo
 \end{figure}
 
 \subsection{Sensor Layer}
-  The sensor layer is comprised of the actual sensing hardware. Each device or node currently comprises of just 3 modules: an IoT capable micro-controller(ESP8266), the environmental sensors (Soil Moisture and Temperature), and a 3.2v battery (LiFePo4). The functionally modular design allows for easy upgradability and repair. The node design is given in Figure~\ref{fig:node}.
+  The sensor layer is comprised of the actual sensing hardware. Each device or node currently comprises of just 3 modules: an IoT capable micro-controller(NodeMCU ESP8266, see Figure~\ref{fig:nodemcu}), the environmental sensors (Soil Moisture and Temperature), and a 3.2v battery (LiFePo4). The functionally modular design allows for easy upgradability and repair. The node design schematics are given in Figure~\ref{fig:node}. Please note that the D0 pin (GPIO 16) needs to be connected to the RST pin of the ESP8266 to enable deep sleep, this needs to be disconnected to allow flashing of new firmware.
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{nodemcu_pinout.png}
+    \caption{NodeMCU ESP8266}
+    \label{fig:nodemcu}
+  \end{figure}
   
   \begin{figure}[!h]
     \centering
@@ -81,7 +88,7 @@ The proposed network architecture (depicted in Figure~\ref{fig:layers}) is compo
 
   The ESP8266 microcontroller is a low-cost, low-power microcontroller with inbuilt WiFi capability and multiple GPIOs for communication purposes (Refer to Table~\ref{table:nodespecs}). The micro-controller is responsible for collecting the data from the sensors and sending it to the gateway through the mesh. The micro-controller is powered by a 3.3v power source and uses 80-90mA during load and 20\si{\micro\ampere} during deep sleep. Using a 1-3 hour duty cycle, the power consumption of the micro-controller can be reduced to less than 1mA per hour. Using a 3000mah battery, this can last anywhere from 150-215 days depending on external factors.
   
-  \begin{table}[h]
+  \begin{table}[!h]
     \centering
     \begin{tabular}{ p{5cm} p{5cm}}
       \hline
@@ -101,7 +108,7 @@ The proposed network architecture (depicted in Figure~\ref{fig:layers}) is compo
   \end{table}
 
   \FloatBarrier
-  \begin{table}[h]
+  \begin{table}[!h]
     \centering
     \begin{tabular}{ p{5cm} p{5cm}}
       \hline
@@ -125,7 +132,14 @@ The proposed network architecture (depicted in Figure~\ref{fig:layers}) is compo
     \item Relay to Cloud MQTT broker and the BigQuery database for archival storage with proper timestamps; and
     \item Receive any configuration updates and relay them to the respective node in the WSN.
   \end{enumerate}
-  The gateway is implemented using Raspberry Pi 4 (4GB) micro-controller. Being equipped with a 1.5GHz quad-core CPU and 4 GB RAM, it is more than capable enough to handle multiple data streams and adds to the scalability of the design. These devices provide sufficient edge processing, removing any requirement for cloud-based processing power. The inbuilt WiFi(2.4 GHz and 5.0 GHz), Bluetooth 5.0, and BLE modules can be used for connecting to both Wifi and BLE based WSNs. A 4G USB dongle is used to provide internet connectivity in remote areas, but an ethernet interface can also be used for the same.
+  The gateway is implemented using Raspberry Pi 4 (4GB) micro-controller (see Figure~\ref{fig:rpi}). Being equipped with a 1.5GHz quad-core CPU and 4 GB RAM, it is more than capable enough to handle multiple data streams and adds to the scalability of the design. These devices provide sufficient edge processing, removing any requirement for cloud-based processing power. The inbuilt WiFi(2.4 GHz and 5.0 GHz), Bluetooth 5.0, and BLE modules can be used for connecting to both Wifi and BLE based WSNs. A 4G USB dongle is used to provide internet connectivity in remote areas, but an ethernet interface can also be used for the same.
+
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[width=\textwidth]{pi-labelled-names.png}
+    \caption{Raspberry Pi 4}
+    \label{fig:rpi}
+  \end{figure}
 
   \FloatBarrier
 \subsection{Cloud Layer}
